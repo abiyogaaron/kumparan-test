@@ -1,19 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { BrowserRouter, Route } from 'react-router-dom';
 import firebase from 'firebase/app';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CONFIG_FIREBASE from './environment';
+import './index.css';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(CONFIG_FIREBASE);
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Route component={App} />
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 

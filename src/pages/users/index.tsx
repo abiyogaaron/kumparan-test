@@ -52,9 +52,18 @@ const Users: FC<RouteComponentProps> = (props) => {
           color="teal"
           fluid
           onClick={() => props.history.push(`/posts/${user.id}`)}
+          className="button-action-table"
         >
           <Icon name="folder open" />
-          View Posts
+          Posts
+        </Button>
+        <Button
+          color="instagram"
+          fluid
+          onClick={() => props.history.push(`/albums/${user.id}`)}
+        >
+          <Icon name="images" />
+          Albums
         </Button>
       </Table.Cell>
     </Table.Row>
@@ -98,7 +107,7 @@ const Users: FC<RouteComponentProps> = (props) => {
                   <Table.HeaderCell>
                     Phone number
                   </Table.HeaderCell>
-                  <Table.HeaderCell width={3}>
+                  <Table.HeaderCell width={2}>
                     Actions
                   </Table.HeaderCell>
                 </Table.Row>

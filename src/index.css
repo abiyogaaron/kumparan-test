@@ -7,8 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* should use scss modules but I use just like this because its more fast to code*/
 .sidebar-container {
   min-height: 100vh;
+}
+.button-action-table {
+  margin-bottom: 10px !important;
 }
 
 code {

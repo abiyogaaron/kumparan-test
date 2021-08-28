@@ -7,22 +7,26 @@ import logger from 'redux-logger';
 import { IAppActions } from './types/app';
 import { IUsersAction } from './types/users';
 import { IPostAction } from './types/post';
+import { IAlbumAction } from './types/album';
 
 import AppReducer from './reducer/app';
 import UserReducer from './reducer/users';
 import PostReducer from './reducer/post';
+import AlbumReducer from './reducer/album';
 
 const rootReducer = combineReducers({
   app: AppReducer,
   users: UserReducer,
   post: PostReducer,
+  album: AlbumReducer,
 });
 
 export type TAppState = ReturnType<typeof rootReducer>;
 type TAppActions =
   | IAppActions
   | IUsersAction
-  | IPostAction;
+  | IPostAction
+  | IAlbumAction;
 
 let composeEnhancer = compose;
 if (process.env.NODE_ENV !== 'production') {

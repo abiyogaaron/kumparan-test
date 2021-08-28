@@ -14,6 +14,7 @@ export enum EStatusErrorCode {
 export enum ELimitViewData {
   USERS = 5,
   USER_POST = 5,
+  USER_ALBUM = 5,
 }
 
 // assumed FE know how many data from response BE, so we could implement SSR pagination
@@ -21,4 +22,5 @@ export enum ELimitViewData {
 export enum ECountDataAssumptions {
   USERS = 10,
   USER_POST = 10,
+  USER_ALBUM = 10,
 }

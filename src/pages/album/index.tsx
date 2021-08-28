@@ -13,38 +13,37 @@ import {
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
-import { IPostParams } from '../../interface/post';
-import { getUserPostsData } from '../../actions/post';
+import { IAlbumParams } from '../../interface/album';
+import { getUserAlbumData } from '../../actions/album';
 import {
   resetState,
-} from '../../redux/action/post';
+} from '../../redux/action/album';
 import PaginationWrapper from '../../components/PaginationWrapper';
 
-const Post: FC<RouteComponentProps> = () => {
+const Album: FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
-  const { userId } = useParams<IPostParams>();
+  const { userId } = useParams<IAlbumParams>();
   const {
     isLoading,
-    userPosts,
-  } = useSelector((state: TAppState) => state.post);
+    userAlbums,
+  } = useSelector((state: TAppState) => state.album);
 
   useEffect(() => {
-    dispatch(getUserPostsData(userId, 0, ELimitViewData.USER_POST));
+    dispatch(getUserAlbumData(userId, 0, ELimitViewData.USER_ALBUM));
     return () => {
       dispatch(resetState());
     };
   }, []);
 
-  const renderUserPostsRow = useCallback(() => userPosts.map((userPost) => (
-    <Table.Row key={userPost.id}>
-      <Table.Cell>{userPost.id}</Table.Cell>
-      <Table.Cell>{userPost.title}</Table.Cell>
-      <Table.Cell>{userPost.body}</Table.Cell>
+  const renderUserAlbumsRow = useCallback(() => userAlbums.map((userAlbum) => (
+    <Table.Row key={userAlbum.id}>
+      <Table.Cell>{userAlbum.id}</Table.Cell>
+      <Table.Cell>{userAlbum.title}</Table.Cell>
     </Table.Row>
-  )), [userPosts]);
+  )), [userAlbums]);
 
   const paginationCall = useCallback((start, limitView) => {
-    dispatch(getUserPostsData(userId, start, limitView));
+    dispatch(getUserAlbumData(userId, start, limitView));
   }, [userId]);
 
   return (
@@ -57,7 +56,7 @@ const Post: FC<RouteComponentProps> = () => {
                 User
                 {`#${userId}`}
                 {' '}
-                Posts
+                Albums
               </Header>
             </Grid.Column>
           </Grid.Row>
@@ -74,21 +73,18 @@ const Post: FC<RouteComponentProps> = () => {
                   <Table.HeaderCell>
                     Title
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Body
-                  </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {renderUserPostsRow()}
+                {renderUserAlbumsRow()}
               </Table.Body>
 
               <Table.Footer>
                 <Table.Row textAlign="right">
                   <Table.HeaderCell colSpan="7">
                     <PaginationWrapper
-                      totalData={ECountDataAssumptions.USER_POST}
-                      limitView={ELimitViewData.USER_POST}
+                      totalData={ECountDataAssumptions.USER_ALBUM}
+                      limitView={ELimitViewData.USER_ALBUM}
                       getData={paginationCall}
                     />
                   </Table.HeaderCell>
@@ -102,4 +98,4 @@ const Post: FC<RouteComponentProps> = () => {
   );
 };
 
-export default memo(Post);
+export default memo(Album);

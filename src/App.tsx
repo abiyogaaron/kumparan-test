@@ -5,6 +5,7 @@ import store from './redux';
 import ContainerWrapper from './components/ContainerWrapper';
 import Users from './pages/users';
 import Post from './pages/post';
+import Album from './pages/album';
 import 'semantic-ui-css/semantic.min.css';
 
 const App: FC<RouteComponentProps> = (props) => (
@@ -25,6 +26,15 @@ const App: FC<RouteComponentProps> = (props) => (
         render={() => (
           <ContainerWrapper>
             <Post {...props} />
+          </ContainerWrapper>
+        )}
+      />
+      <Route
+        exact
+        path="/albums/:userId"
+        render={() => (
+          <ContainerWrapper>
+            <Album {...props} />
           </ContainerWrapper>
         )}
       />

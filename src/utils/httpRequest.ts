@@ -14,7 +14,7 @@ export interface HttpReqCfg extends AxiosRequestConfig {
   headers?: {[key: string]: string | number}
 }
 
-export function httpReq<OK = any>(url: string, config: HttpReqCfg): Promise<OK> {
+export default function httpReq<OK = any>(url: string, config: HttpReqCfg): Promise<OK> {
   return new Promise<OK>((resolve, reject) => {
     axios(url, config)
       .then((res: AxiosResponse) => {

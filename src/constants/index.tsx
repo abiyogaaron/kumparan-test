@@ -17,3 +17,8 @@ export const MENU_LIST: IMenuItems[] = [
     icon: 'images',
   },
 ];
+
+export const API_ROUTES = {
+  getUsers: `${process.env.REACT_APP_API}/users`,
+  getPostByUserId: `${process.env.REACT_APP_API}/posts/?userId={userId}`,
+};

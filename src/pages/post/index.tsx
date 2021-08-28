@@ -1,68 +1,51 @@
 import React, {
-  FC, useCallback, useEffect, memo,
+  FC, useEffect, memo, useCallback,
 } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Segment,
   Container,
   Header,
   Grid,
-  Icon,
-  Button,
-  Table,
   Divider,
+  Table,
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
-import {
-  getUsersData,
-} from '../../actions/users';
+import { IPostParams } from '../../interface/post';
+import { getUserPostsData } from '../../actions/post';
 import {
   resetState,
 } from '../../redux/action/users';
 import PaginationWrapper from '../../components/PaginationWrapper';
 
-const Users: FC<RouteComponentProps> = (props) => {
+const Post: FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
+  const { userId } = useParams<IPostParams>();
   const {
     isLoading,
-    data,
-  } = useSelector((state: TAppState) => state.users);
+    userPosts,
+  } = useSelector((state: TAppState) => state.post);
 
   useEffect(() => {
-    dispatch(getUsersData(0, ELimitViewData.USERS));
+    dispatch(getUserPostsData(userId, 0, ELimitViewData.USER_POST));
     return () => {
       dispatch(resetState());
     };
   }, []);
 
-  const renderUserRow = useCallback(() => data.map((user) => (
-    <Table.Row key={user.id}>
-      <Table.Cell>{user.id}</Table.Cell>
-      <Table.Cell>{user.name}</Table.Cell>
-      <Table.Cell>{user.username}</Table.Cell>
-      <Table.Cell>{user.email}</Table.Cell>
-      <Table.Cell>
-        {`${user.address.street}, ${user.address.city}, ${user.address.zipcode}`}
-      </Table.Cell>
-      <Table.Cell>{user.phone}</Table.Cell>
-      <Table.Cell>
-        <Button
-          color="teal"
-          fluid
-          onClick={() => props.history.push(`/posts/${user.id}`)}
-        >
-          <Icon name="folder open" />
-          View Posts
-        </Button>
-      </Table.Cell>
+  const renderUserPostsRow = useCallback(() => userPosts.map((userPost) => (
+    <Table.Row key={userPost.id}>
+      <Table.Cell>{userPost.id}</Table.Cell>
+      <Table.Cell>{userPost.title}</Table.Cell>
+      <Table.Cell>{userPost.body}</Table.Cell>
     </Table.Row>
-  )), [data]);
+  )), [userPosts]);
 
   const paginationCall = useCallback((start, limitView) => {
-    dispatch(getUsersData(start, limitView));
-  }, []);
+    dispatch(getUserPostsData(userId, start, limitView));
+  }, [userId]);
 
   return (
     <Container>
@@ -70,7 +53,12 @@ const Users: FC<RouteComponentProps> = (props) => {
         <Grid verticalAlign="middle">
           <Grid.Row>
             <Grid.Column>
-              <Header as="h3">Users Overview</Header>
+              <Header as="h3">
+                User
+                {`#${userId}`}
+                {' '}
+                Posts
+              </Header>
             </Grid.Column>
           </Grid.Row>
 
@@ -84,35 +72,23 @@ const Users: FC<RouteComponentProps> = (props) => {
                     Id
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    Name
+                    Title
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    Username
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Email
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Address
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Phone number
-                  </Table.HeaderCell>
-                  <Table.HeaderCell width={3}>
-                    Actions
+                    Body
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {renderUserRow()}
+                {renderUserPostsRow()}
               </Table.Body>
 
               <Table.Footer>
                 <Table.Row textAlign="right">
                   <Table.HeaderCell colSpan="7">
                     <PaginationWrapper
-                      totalData={ECountDataAssumptions.USERS}
-                      limitView={ELimitViewData.USERS}
+                      totalData={ECountDataAssumptions.USER_POST}
+                      limitView={ELimitViewData.USER_POST}
                       getData={paginationCall}
                     />
                   </Table.HeaderCell>
@@ -126,4 +102,4 @@ const Users: FC<RouteComponentProps> = (props) => {
   );
 };
 
-export default memo(Users);
+export default memo(Post);

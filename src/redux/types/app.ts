@@ -1,13 +1,21 @@
+import { EStatusErrorCode } from '../../interface';
+
 export enum EAppAction {
-  APP_SET_IS_SIDEBAR_VISIBLE = 'APP_SET_IS_SIDEBAR_VISIBLE'
+  APP_SET_IS_SIDEBAR_VISIBLE = 'APP_SET_IS_SIDEBAR_VISIBLE',
+  APP_SET_ERROR_STATUS = 'APP_SET_ERROR_STATUS',
 }
 
 export interface IAppSetSidebarVisible {
   isSidebarVisible: boolean;
 }
 
+export interface IAppSetErrorStatus {
+  errorStatus: EStatusErrorCode | null;
+}
+
 export type TAppPayload =
-  | IAppSetSidebarVisible;
+  | IAppSetSidebarVisible
+  | IAppSetErrorStatus;
 
 export interface IAppActions {
   type: EAppAction;
@@ -16,4 +24,5 @@ export interface IAppActions {
 
 export interface IAppState {
   isSidebarVisible: boolean;
+  errorStatus: EStatusErrorCode | null;
 }

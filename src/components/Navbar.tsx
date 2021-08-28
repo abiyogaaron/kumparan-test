@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
@@ -31,4 +31,4 @@ const Navbar: FC = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

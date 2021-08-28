@@ -4,9 +4,10 @@ import { Provider } from 'react-redux';
 import store from './redux';
 import ContainerWrapper from './components/ContainerWrapper';
 import Users from './pages/users';
+import Post from './pages/post';
 import 'semantic-ui-css/semantic.min.css';
 
-const App: FC<RouteComponentProps> = () => (
+const App: FC<RouteComponentProps> = (props) => (
   <Provider store={store}>
     <Switch>
       <Route
@@ -14,7 +15,16 @@ const App: FC<RouteComponentProps> = () => (
         path="/users"
         render={() => (
           <ContainerWrapper>
-            <Users />
+            <Users {...props} />
+          </ContainerWrapper>
+        )}
+      />
+      <Route
+        exact
+        path="/posts/:userId"
+        render={() => (
+          <ContainerWrapper>
+            <Post {...props} />
           </ContainerWrapper>
         )}
       />

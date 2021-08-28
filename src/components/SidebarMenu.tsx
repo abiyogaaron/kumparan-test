@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -36,4 +36,4 @@ const SidebarMenu: FC = () => {
   );
 };
 
-export default SidebarMenu;
+export default memo(SidebarMenu);

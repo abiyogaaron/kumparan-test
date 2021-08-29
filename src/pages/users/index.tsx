@@ -37,7 +37,11 @@ const Users: FC<RouteComponentProps> = (props) => {
     };
   }, []);
 
-  const renderUserRow = useCallback(() => data.map((user) => (
+  const paginationCall = useCallback((start, limitView) => {
+    dispatch(getUsersData(start, limitView));
+  }, []);
+
+  const renderUserRow = () => data.map((user) => (
     <Table.Row key={user.id}>
       <Table.Cell>{user.id}</Table.Cell>
       <Table.Cell>{user.name}</Table.Cell>
@@ -67,11 +71,7 @@ const Users: FC<RouteComponentProps> = (props) => {
         </Button>
       </Table.Cell>
     </Table.Row>
-  )), [data]);
-
-  const paginationCall = useCallback((start, limitView) => {
-    dispatch(getUsersData(start, limitView));
-  }, []);
+  ));
 
   return (
     <Container>

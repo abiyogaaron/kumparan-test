@@ -4,6 +4,7 @@ import {
 } from '../types/post';
 import {
   IUserPostResponseBody,
+  IPostCommentsResponseBody,
 } from '../../interface/post';
 
 export const setIsLoading = (isLoading: boolean): IPostAction => ({
@@ -17,6 +18,20 @@ export const setUserPostData = (userPosts: IUserPostResponseBody[]): IPostAction
   type: EPostAction.POST_SET_USER_POST,
   payload: {
     userPosts,
+  },
+});
+
+export const setPostComments = (comments: IPostCommentsResponseBody[]): IPostAction => ({
+  type: EPostAction.POST_SET_COMMENT,
+  payload: {
+    comments,
+  },
+});
+
+export const setModalIsLoading = (isModalLoading: boolean): IPostAction => ({
+  type: EPostAction.POST_SET_IS_MODAL_LOADING,
+  payload: {
+    isModalLoading,
   },
 });
 

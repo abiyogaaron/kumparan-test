@@ -10,6 +10,8 @@ export const MENU_LIST: IMenuItems[] = [
 
 export const API_ROUTES = {
   getUsers: `${process.env.REACT_APP_API}/users`,
-  getPostByUserId: `${process.env.REACT_APP_API}/posts/?userId={userId}`,
-  getAlbumByUserId: `${process.env.REACT_APP_API}/albums/?userId={userId}`,
+  getPostByUserId: `${process.env.REACT_APP_API}/posts?userId={userId}`,
+  getAlbumByUserId: `${process.env.REACT_APP_API}/albums?userId={userId}`,
+  getCommentsByPostId: `${process.env.REACT_APP_API}/comments?postId={postId}`,
+  getPhotosByAlbumid: `${process.env.REACT_APP_API}/photos?albumId={albumId}`,
 };

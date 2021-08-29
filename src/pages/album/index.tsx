@@ -10,6 +10,8 @@ import {
   Grid,
   Divider,
   Table,
+  Button,
+  Icon,
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
@@ -20,7 +22,7 @@ import {
 } from '../../redux/action/album';
 import PaginationWrapper from '../../components/PaginationWrapper';
 
-const Album: FC<RouteComponentProps> = () => {
+const Album: FC<RouteComponentProps> = (props) => {
   const dispatch = useDispatch();
   const { userId } = useParams<IAlbumParams>();
   const {
@@ -39,6 +41,16 @@ const Album: FC<RouteComponentProps> = () => {
     <Table.Row key={userAlbum.id}>
       <Table.Cell>{userAlbum.id}</Table.Cell>
       <Table.Cell>{userAlbum.title}</Table.Cell>
+      <Table.Cell>
+        <Button
+          color="teal"
+          compact
+          onClick={() => props.history.push(`/albums/${userAlbum.id}/photo`)}
+        >
+          <Icon name="image" />
+          View Photos
+        </Button>
+      </Table.Cell>
     </Table.Row>
   )), [userAlbums]);
 
@@ -72,6 +84,9 @@ const Album: FC<RouteComponentProps> = () => {
                   </Table.HeaderCell>
                   <Table.HeaderCell>
                     Title
+                  </Table.HeaderCell>
+                  <Table.HeaderCell width={3}>
+                    Action
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>

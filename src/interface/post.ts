@@ -8,3 +8,11 @@ export interface IUserPostResponseBody {
   title: string;
   body: string;
 }
+
+export interface IPostCommentsResponseBody {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}

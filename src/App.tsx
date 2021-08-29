@@ -6,6 +6,7 @@ import ContainerWrapper from './components/ContainerWrapper';
 import Users from './pages/users';
 import Post from './pages/post';
 import Album from './pages/album';
+import Photo from './pages/photo';
 import 'semantic-ui-css/semantic.min.css';
 
 const App: FC<RouteComponentProps> = (props) => (
@@ -35,6 +36,15 @@ const App: FC<RouteComponentProps> = (props) => (
         render={() => (
           <ContainerWrapper>
             <Album {...props} />
+          </ContainerWrapper>
+        )}
+      />
+      <Route
+        exact
+        path="/albums/:albumId/photo"
+        render={() => (
+          <ContainerWrapper>
+            <Photo {...props} />
           </ContainerWrapper>
         )}
       />

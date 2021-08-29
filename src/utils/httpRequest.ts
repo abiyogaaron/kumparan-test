@@ -3,7 +3,7 @@ import axios, {
   AxiosResponse,
   AxiosError,
 } from 'axios';
-import { IErrorResponse } from '../interface';
+import { IErrorResponse, EStatusErrorCode } from '../interface';
 
 type BodyType = object | string | undefined;
 type MethodType = 'GET' | 'POST';
@@ -22,7 +22,7 @@ export default function httpReq<OK = any>(url: string, config: HttpReqCfg): Prom
       })
       .catch((err: AxiosError) => {
         const errResp: IErrorResponse = {
-          status: err.response!.status,
+          status: err.response!.status || EStatusErrorCode.NOT_FOUND,
         };
         reject(errResp);
       });

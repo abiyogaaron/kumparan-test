@@ -23,7 +23,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "web-vitals": "^1.1.2",
-    "yup": "^0.32.9"
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -59,7 +59,7 @@
     "@types/react-toastify": "^4.1.0",
     "@types/redux-logger": "^3.0.9",
     "@types/redux-thunk": "^2.1.0",
-    "@types/yup": "^0.29.13",
+    "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-plugin-import": "^2.22.0",

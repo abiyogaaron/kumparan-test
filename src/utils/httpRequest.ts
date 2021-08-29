@@ -6,7 +6,7 @@ import axios, {
 import { IErrorResponse, EStatusErrorCode } from '../interface';
 
 type BodyType = object | string | undefined;
-type MethodType = 'GET' | 'POST';
+type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export interface HttpReqCfg extends AxiosRequestConfig {
   data?: BodyType;

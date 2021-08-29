@@ -16,6 +16,7 @@ import {
   Loader,
   Item,
   Comment,
+  Confirm,
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
@@ -23,6 +24,7 @@ import { IPostParams } from '../../interface/post';
 import {
   getUserPostsData,
   getCommentsByPostId,
+  deleteUserPost,
 } from '../../actions/post';
 import {
   resetState,
@@ -30,7 +32,7 @@ import {
 import PaginationWrapper from '../../components/PaginationWrapper';
 import ModalWrapper from '../../components/ModalWrapper';
 
-const Post: FC<RouteComponentProps> = () => {
+const Post: FC<RouteComponentProps> = (props) => {
   const dispatch = useDispatch();
   const { userId } = useParams<IPostParams>();
   const {
@@ -41,6 +43,7 @@ const Post: FC<RouteComponentProps> = () => {
   } = useSelector((state: TAppState) => state.post);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
   const [postId, setPostId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -57,14 +60,24 @@ const Post: FC<RouteComponentProps> = () => {
   const clickOpenDetail = useCallback((postId: string) => {
     setIsOpen(true);
     setPostId(postId);
-  }, [isOpen]);
+  }, []);
 
   const closeDetail = useCallback(() => {
     setIsOpen(false);
-  }, [isOpen]);
+  }, []);
 
   const postDetailModalMount = useCallback(() => {
     dispatch(getCommentsByPostId(postId as string));
+  }, [postId]);
+
+  const clickOpenConfirmDelete = useCallback((postId) => {
+    setIsDeleteConfirmOpen(true);
+    setPostId(postId);
+  }, []);
+
+  const onConfirmDelete = useCallback(() => {
+    dispatch(deleteUserPost(postId as string));
+    setIsDeleteConfirmOpen(false);
   }, [postId]);
 
   const renderUserPostsRow = () => userPosts.map((userPost) => (
@@ -74,7 +87,7 @@ const Post: FC<RouteComponentProps> = () => {
       <Table.Cell>{userPost.body}</Table.Cell>
       <Table.Cell>
         <Button
-          color="teal"
+          color="instagram"
           className="button-action-table"
           compact
           floated="right"
@@ -88,6 +101,7 @@ const Post: FC<RouteComponentProps> = () => {
           className="button-action-table"
           compact
           floated="right"
+          onClick={() => props.history.push(`/posts/${userPost.id}/edit`)}
         >
           <Icon name="edit" />
         </Button>
@@ -97,6 +111,7 @@ const Post: FC<RouteComponentProps> = () => {
           className="button-action-table"
           compact
           floated="right"
+          onClick={() => clickOpenConfirmDelete(userPost.id)}
         >
           <Icon name="trash" />
         </Button>
@@ -167,6 +182,21 @@ const Post: FC<RouteComponentProps> = () => {
           <Divider />
 
           <Grid.Row>
+            <Grid.Column>
+              <div className="pull-right">
+                <Button
+                  color="teal"
+                  onClick={() => props.history.push(`/posts/${userId}/create`)}
+                >
+                  <Icon name="plus" />
+                  {' '}
+                  New Post
+                </Button>
+              </div>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
             <Table celled structured color="teal">
               <Table.Header>
                 <Table.Row>
@@ -216,6 +246,12 @@ const Post: FC<RouteComponentProps> = () => {
       >
         {renderModalChildren()}
       </ModalWrapper>
+
+      <Confirm
+        open={isDeleteConfirmOpen}
+        onConfirm={onConfirmDelete}
+        onCancel={() => setIsDeleteConfirmOpen(false)}
+      />
     </Container>
   );
 };

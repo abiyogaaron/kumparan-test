@@ -9,12 +9,14 @@ import { IUsersAction } from './types/users';
 import { IPostAction } from './types/post';
 import { IAlbumAction } from './types/album';
 import { IPhotoAction } from './types/photo';
+import { IPostConfigAction } from './types/postConfig';
 
 import AppReducer from './reducer/app';
 import UserReducer from './reducer/users';
 import PostReducer from './reducer/post';
 import AlbumReducer from './reducer/album';
 import PhotoReducer from './reducer/photo';
+import PostConfigReducer from './reducer/postConfig';
 
 const rootReducer = combineReducers({
   app: AppReducer,
@@ -22,6 +24,7 @@ const rootReducer = combineReducers({
   post: PostReducer,
   album: AlbumReducer,
   photo: PhotoReducer,
+  postConfig: PostConfigReducer,
 });
 
 export type TAppState = ReturnType<typeof rootReducer>;
@@ -30,7 +33,8 @@ type TAppActions =
   | IUsersAction
   | IPostAction
   | IAlbumAction
-  | IPhotoAction;
+  | IPhotoAction
+  | IPostConfigAction;
 
 let composeEnhancer = compose;
 if (process.env.NODE_ENV !== 'production') {

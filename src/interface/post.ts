@@ -1,5 +1,6 @@
 export interface IPostParams {
   userId: string;
+  postId: string;
 }
 
 export interface IUserPostResponseBody {

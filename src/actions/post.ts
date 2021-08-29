@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { toast } from 'react-toastify';
 import { PromiseVoid } from '../interface';
 import httpReq, { HttpReqCfg } from '../utils/httpRequest';
 import { TAppState } from '../redux';
@@ -59,5 +60,25 @@ export const getCommentsByPostId = (
     d(setErrorStatus(err.status));
   } finally {
     d(setModalIsLoading(false));
+  }
+};
+
+export const deleteUserPost = (
+  postId: string,
+): ThunkAction<PromiseVoid, TAppState, {}, IPostAction> => async (d: Dispatch) => {
+  const config: HttpReqCfg = {
+    method: 'DELETE',
+  };
+
+  try {
+    d(setIsLoading(true));
+    const url = API_ROUTES.deleteUserPost.replace('{postId}', postId);
+    await httpReq(url, config);
+
+    toast.success(`POST #${postId} successfully deleted ...`);
+  } catch (err) {
+    d(setErrorStatus(err.status));
+  } finally {
+    d(setIsLoading(false));
   }
 };

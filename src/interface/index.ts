@@ -26,3 +26,15 @@ export enum ECountDataAssumptions {
   USER_ALBUM = 10,
   USER_ALBUM_PHOTOS = 50,
 }
+
+export type TFields = 'text' | 'image' | 'textarea';
+
+export interface IFormField {
+  label: string;
+  key: string;
+  type: TFields;
+  guide?: string;
+  rows?: number;
+  maxlength?: number;
+  placeholder?: string;
+}

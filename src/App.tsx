@@ -7,6 +7,8 @@ import Users from './pages/users';
 import Post from './pages/post';
 import Album from './pages/album';
 import Photo from './pages/photo';
+import PostConfig from './pages/post/PostConfig';
+import Toaster from './components/Toaster';
 import 'semantic-ui-css/semantic.min.css';
 
 const App: FC<RouteComponentProps> = (props) => (
@@ -18,6 +20,15 @@ const App: FC<RouteComponentProps> = (props) => (
         render={() => (
           <ContainerWrapper>
             <Users {...props} />
+          </ContainerWrapper>
+        )}
+      />
+      <Route
+        exact
+        path="/posts/:userId/create"
+        render={() => (
+          <ContainerWrapper>
+            <PostConfig {...props} />
           </ContainerWrapper>
         )}
       />
@@ -48,7 +59,17 @@ const App: FC<RouteComponentProps> = (props) => (
           </ContainerWrapper>
         )}
       />
+      <Route
+        exact
+        path="/posts/:postId/edit"
+        render={() => (
+          <ContainerWrapper>
+            <PostConfig {...props} />
+          </ContainerWrapper>
+        )}
+      />
     </Switch>
+    <Toaster />
   </Provider>
 );
 

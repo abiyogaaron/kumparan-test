@@ -12,6 +12,7 @@ import {
   Table,
   Button,
   Icon,
+  Breadcrumb,
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
@@ -70,6 +71,16 @@ const Album: FC<RouteComponentProps> = (props) => {
                 {' '}
                 Albums
               </Header>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Breadcrumb size="small">
+                <Breadcrumb.Section>Users</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section>Users Albums</Breadcrumb.Section>
+              </Breadcrumb>
             </Grid.Column>
           </Grid.Row>
 

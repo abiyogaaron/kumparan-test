@@ -151,7 +151,7 @@ const PostConfig: FC<RouteComponentProps> = (props) => {
           <Grid.Row>
             <Grid.Column>
               <Header as="h3">
-                { isNewPostProcess ? `Edit Post #${postId}` : `New Post (User: ${userId})`}
+                { isNewPostProcess ? `New Post (User: ${userId})` : `Edit Post #${postId}`}
               </Header>
             </Grid.Column>
           </Grid.Row>

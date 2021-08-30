@@ -11,6 +11,7 @@ import {
   Grid,
   Divider,
   Button,
+  Confirm,
 } from 'semantic-ui-react';
 import { TAppState } from '../../redux';
 import { ICommentParam } from '../../interface/comment';
@@ -44,6 +45,7 @@ const CommentConfig: FC<RouteComponentProps> = (props) => {
   const isNewCommentProcess = useMemo(() => !!postId, [postId]);
 
   const [isEditMode, setIsEditMode] = useState<boolean>(!!isNewCommentProcess);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isNewCommentProcess) {
@@ -109,10 +111,12 @@ const CommentConfig: FC<RouteComponentProps> = (props) => {
     });
   }, [isNewCommentProcess, formDefault]);
 
-  const deleteComment = () => {
+  const deleteComment = useCallback(() => {
     dispatch(deletePostComment(commentId));
+    setIsDeleteConfirmOpen(false);
+
     props.history.goBack();
-  };
+  }, [commentId]);
 
   const renderDeleteButton = useCallback(() => {
     if (!isNewCommentProcess) {
@@ -126,7 +130,7 @@ const CommentConfig: FC<RouteComponentProps> = (props) => {
               icon="trash"
               labelPosition="left"
               circular
-              onClick={deleteComment}
+              onClick={() => setIsDeleteConfirmOpen(true)}
             />
           </Grid.Row>
         </>
@@ -206,6 +210,12 @@ const CommentConfig: FC<RouteComponentProps> = (props) => {
       <Prompt
         when={isEditMode && !isNewCommentProcess}
         message="Are you sure want to leave ?"
+      />
+
+      <Confirm
+        open={isDeleteConfirmOpen}
+        onConfirm={deleteComment}
+        onCancel={() => setIsDeleteConfirmOpen(false)}
       />
     </Container>
   );

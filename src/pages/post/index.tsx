@@ -17,6 +17,7 @@ import {
   Item,
   Comment,
   Confirm,
+  Breadcrumb,
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
@@ -169,15 +170,9 @@ const Post: FC<RouteComponentProps> = (props) => {
         </Item.Group>
 
         <Grid>
-          <Grid.Row>
-            <Header as="h3" dividing>
-              Comments
-            </Header>
-          </Grid.Row>
-          <Grid.Row reversed="computer">
+          <Grid.Row centered>
             <Button
               color="twitter"
-              className="pull-right"
               compact
               circular
               onClick={() => props.history.push(`/comments/${postId}/create`)}
@@ -189,6 +184,9 @@ const Post: FC<RouteComponentProps> = (props) => {
         </Grid>
 
         <Comment.Group>
+          <Header as="h3" dividing>
+            Comments
+          </Header>
           {renderPostComments()}
         </Comment.Group>
       </Container>
@@ -207,6 +205,16 @@ const Post: FC<RouteComponentProps> = (props) => {
                 {' '}
                 Posts
               </Header>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Breadcrumb size="small">
+                <Breadcrumb.Section>Users</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section>Users Posts</Breadcrumb.Section>
+              </Breadcrumb>
             </Grid.Column>
           </Grid.Row>
 

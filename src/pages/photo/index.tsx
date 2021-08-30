@@ -15,6 +15,7 @@ import {
   Image,
   Dimmer,
   Loader,
+  Breadcrumb,
 } from 'semantic-ui-react';
 import { ECountDataAssumptions, ELimitViewData } from '../../interface';
 import { TAppState } from '../../redux';
@@ -112,6 +113,18 @@ const Photo: FC<RouteComponentProps> = () => {
                 {' '}
                 Photos
               </Header>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Breadcrumb size="small">
+                <Breadcrumb.Section>Users</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section>Users Albums</Breadcrumb.Section>
+                <Breadcrumb.Divider />
+                <Breadcrumb.Section>Album Photos</Breadcrumb.Section>
+              </Breadcrumb>
             </Grid.Column>
           </Grid.Row>
 

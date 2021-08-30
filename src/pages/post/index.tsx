@@ -126,6 +126,20 @@ const Post: FC<RouteComponentProps> = (props) => {
         <div>{comment.name}</div>
       </Comment.Metadata>
       <Comment.Text>{comment.body}</Comment.Text>
+      <Comment.Actions>
+        <Comment.Action>
+          <Button
+            color="teal"
+            compact
+            basic
+            circular
+            onClick={() => props.history.push(`/comments/${comment.id}/edit`)}
+          >
+            <Icon name="folder open" />
+            Open
+          </Button>
+        </Comment.Action>
+      </Comment.Actions>
     </Comment>
   ));
 
@@ -154,10 +168,27 @@ const Post: FC<RouteComponentProps> = (props) => {
           </Item>
         </Item.Group>
 
+        <Grid>
+          <Grid.Row>
+            <Header as="h3" dividing>
+              Comments
+            </Header>
+          </Grid.Row>
+          <Grid.Row reversed="computer">
+            <Button
+              color="twitter"
+              className="pull-right"
+              compact
+              circular
+              onClick={() => props.history.push(`/comments/${postId}/create`)}
+            >
+              <Icon name="plus" />
+              New Comment
+            </Button>
+          </Grid.Row>
+        </Grid>
+
         <Comment.Group>
-          <Header as="h3" dividing>
-            Comments
-          </Header>
           {renderPostComments()}
         </Comment.Group>
       </Container>

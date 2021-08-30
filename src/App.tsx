@@ -8,6 +8,7 @@ import Post from './pages/post';
 import Album from './pages/album';
 import Photo from './pages/photo';
 import PostConfig from './pages/post/PostConfig';
+import CommentConfig from './pages/comment/CommentConfig';
 import Toaster from './components/Toaster';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -65,6 +66,24 @@ const App: FC<RouteComponentProps> = (props) => (
         render={() => (
           <ContainerWrapper>
             <PostConfig {...props} />
+          </ContainerWrapper>
+        )}
+      />
+      <Route
+        exact
+        path="/comments/:commentId/edit"
+        render={() => (
+          <ContainerWrapper>
+            <CommentConfig {...props} />
+          </ContainerWrapper>
+        )}
+      />
+      <Route
+        exact
+        path="/comments/:postId/create"
+        render={() => (
+          <ContainerWrapper>
+            <CommentConfig {...props} />
           </ContainerWrapper>
         )}
       />

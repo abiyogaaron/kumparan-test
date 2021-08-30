@@ -13,40 +13,41 @@ import {
   Button,
 } from 'semantic-ui-react';
 import { TAppState } from '../../redux';
-import { IPostParams } from '../../interface/post';
-import { POST_FORM } from '../../constants';
+import { ICommentParam } from '../../interface/comment';
+import { COMMENT_FORM } from '../../constants';
 import {
-  setPostForm,
-  setPostFormErrors,
+  setCommentForm,
+  setCommentFormErrors,
   resetState,
-} from '../../redux/action/postConfig';
+} from '../../redux/action/commentConfig';
 import {
-  createUserPost,
-  getUserPost,
-  updateUserPost,
-} from '../../actions/postConfig';
+  createPostComment,
+  getPostComment,
+  updatePostComment,
+  deletePostComment,
+} from '../../actions/commentConfig';
 import { deepCopy } from '../../utils';
 import Validator from '../../helper/Validator';
-import { POST_CONFIG_VALIDATION_RULES } from '../../helper/validationRule';
+import { COMMENT_CONFIG_VALIDATION_RULES } from '../../helper/validationRule';
 import FormWrapper from '../../components/FormWrapper';
 
-const PostConfig: FC<RouteComponentProps> = (props) => {
+const CommentConfig: FC<RouteComponentProps> = (props) => {
   const dispatch = useDispatch();
-  const { postId, userId } = useParams<IPostParams>();
+  const { commentId, postId } = useParams<ICommentParam>();
   const {
     errors,
     form,
     formDefault,
     isLoading,
-  } = useSelector((state: TAppState) => state.postConfig);
+  } = useSelector((state: TAppState) => state.commentConfig);
 
-  const isNewPostProcess = useMemo(() => !!userId, [userId]);
+  const isNewCommentProcess = useMemo(() => !!postId, [postId]);
 
-  const [isEditMode, setIsEditMode] = useState<boolean>(!!isNewPostProcess);
+  const [isEditMode, setIsEditMode] = useState<boolean>(!!isNewCommentProcess);
 
   useEffect(() => {
-    if (!isNewPostProcess) {
-      dispatch(getUserPost(postId));
+    if (!isNewCommentProcess) {
+      dispatch(getPostComment(commentId));
     }
     return () => {
       dispatch(resetState());
@@ -60,7 +61,7 @@ const PostConfig: FC<RouteComponentProps> = (props) => {
     const newForm = deepCopy(form);
     newForm[name] = value;
 
-    dispatch(setPostForm(newForm));
+    dispatch(setCommentForm(newForm));
   };
 
   const handleChangeTextArea = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
@@ -70,46 +71,72 @@ const PostConfig: FC<RouteComponentProps> = (props) => {
     const newForm = deepCopy(form);
     newForm[name] = value;
 
-    dispatch(setPostForm(newForm));
+    dispatch(setCommentForm(newForm));
   };
 
   const handleSave = useCallback(() => {
-    const validator = new Validator(POST_CONFIG_VALIDATION_RULES);
+    const validator = new Validator(COMMENT_CONFIG_VALIDATION_RULES);
     validator.validate(form)
       .then(() => {
-        if (isNewPostProcess) {
+        if (isNewCommentProcess) {
           batch(() => {
-            dispatch(setPostFormErrors({}));
-            dispatch(createUserPost(userId));
+            dispatch(setCommentFormErrors({}));
+            dispatch(createPostComment(postId));
           });
         } else {
           batch(() => {
-            dispatch(setPostFormErrors({}));
-            dispatch(updateUserPost(postId));
+            dispatch(setCommentFormErrors({}));
+            dispatch(updatePostComment(commentId));
           });
         }
       })
       .catch((err) => {
         const errorMessages = Validator.getErrorMessages(err);
-        dispatch(setPostFormErrors(errorMessages));
+        dispatch(setCommentFormErrors(errorMessages));
       });
-  }, [form, userId, postId]);
+  }, [form, postId, commentId]);
 
   const handleCancel = useCallback(() => {
-    if (isNewPostProcess) {
-      props.history.push(`/posts/${userId}`);
+    if (isNewCommentProcess) {
+      props.history.goBack();
       return;
     }
 
     setIsEditMode(false);
     batch(() => {
-      dispatch(setPostForm(formDefault));
-      dispatch(setPostFormErrors({}));
+      dispatch(setCommentForm(formDefault));
+      dispatch(setCommentFormErrors({}));
     });
-  }, [isNewPostProcess, formDefault]);
+  }, [isNewCommentProcess, formDefault]);
+
+  const deleteComment = () => {
+    dispatch(deletePostComment(commentId));
+    props.history.goBack();
+  };
+
+  const renderDeleteButton = useCallback(() => {
+    if (!isNewCommentProcess) {
+      return (
+        <>
+          <Divider />
+          <Grid.Row centered>
+            <Button
+              color="red"
+              content="Delete Comment"
+              icon="trash"
+              labelPosition="left"
+              circular
+              onClick={deleteComment}
+            />
+          </Grid.Row>
+        </>
+      );
+    }
+    return null;
+  }, [deleteComment]);
 
   const renderButton = useCallback(() => {
-    if (isEditMode || isNewPostProcess) {
+    if (isEditMode || isNewCommentProcess) {
       return (
         <div className="pull-right">
           <Button
@@ -151,7 +178,7 @@ const PostConfig: FC<RouteComponentProps> = (props) => {
           <Grid.Row>
             <Grid.Column>
               <Header as="h3">
-                { isNewPostProcess ? `Edit Post #${postId}` : `New Post (User: ${userId})`}
+                { isNewCommentProcess ? `New Comment (Post: ${postId})` : `Edit Comment #${commentId}`}
               </Header>
             </Grid.Column>
           </Grid.Row>
@@ -166,20 +193,22 @@ const PostConfig: FC<RouteComponentProps> = (props) => {
 
           <FormWrapper
             disabled={!isEditMode}
-            formField={POST_FORM}
+            formField={COMMENT_FORM}
             form={form}
             errors={errors}
             handleChange={handleChange}
             handleChangeTextArea={handleChangeTextArea}
           />
+
+          {renderDeleteButton()}
         </Grid>
       </Segment>
       <Prompt
-        when={isEditMode && !isNewPostProcess}
+        when={isEditMode && !isNewCommentProcess}
         message="Are you sure want to leave ?"
       />
     </Container>
   );
 };
 
-export default memo(PostConfig);
+export default memo(CommentConfig);

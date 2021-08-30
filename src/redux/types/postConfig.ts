@@ -1,3 +1,10 @@
+import {
+  IPageConfigSetErrorsAction,
+  IPageConfigSetFormAction,
+  IPageConfigSetFormDefaultAction,
+  IPageConfigSetLoadingAction,
+} from './index';
+
 export interface IPostForm {
   post_title: string;
   post_body: string;
@@ -12,21 +19,13 @@ export enum EPostConfigAction {
   POST_CONFIG_RESET_STATE = 'POST_CONFIG_RESET_STATE',
 }
 
-export interface IPostConfigSetLoadingAction {
-  isLoading: boolean;
-}
+export interface IPostConfigSetLoadingAction extends IPageConfigSetLoadingAction {}
 
-export interface IPostConfigSetFormAction {
-  form: IPostForm;
-}
+export interface IPostConfigSetFormAction extends IPageConfigSetFormAction<IPostForm> {}
 
-export interface IPostConfigSetFormDefaultAction {
-  formDefault: IPostForm;
-}
+export interface IPostConfigSetFormDefaultAction extends IPageConfigSetFormDefaultAction<IPostForm> {}
 
-export interface IPostConfigSetErrorsAction {
-  errors: { [key: string]: string };
-}
+export interface IPostConfigSetErrorsAction extends IPageConfigSetErrorsAction<{ [key: string]: string }> {}
 
 export type TPostConfigAction =
   | IPostConfigSetLoadingAction

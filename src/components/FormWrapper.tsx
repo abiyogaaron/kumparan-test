@@ -5,18 +5,20 @@ import {
 } from 'semantic-ui-react';
 import { IFormField } from '../interface';
 import { IPostForm } from '../redux/types/postConfig';
+import { ICommentForm } from '../redux/types/commentConfig';
 import InputWithValidation from './InputWithValidation';
 import TextareaWithValidation from './TextareaWithValidation';
 
 interface IFormWrapper {
   errors: { [key: string]: string };
   formField: IFormField[];
-  form: IPostForm;
+  form: IPostForm | ICommentForm;
   disabled: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeTextArea: (e: React.SyntheticEvent<HTMLTextAreaElement>) => void;
 }
-
+// this component is a big loop for looping a field Input
+// SKELETON FIELD source look at constants/index.ts
 const FormWrapper: FC<IFormWrapper> = (props) => {
   const {
     disabled,

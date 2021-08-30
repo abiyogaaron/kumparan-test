@@ -86,6 +86,21 @@ export enum ECountDataAssumptions {
 }
 ```
 theres `FormWrapper.tsx` inside `components` folder, `FormWrapper` component do big a loop from constant data field and pass every necessary props to each it's child component
+
+so the field structure object will look like this
+
+```
+interface IFormField {
+  label: string;
+  key: string;
+  type: TFields;
+  guide?: string;
+  rows?: number;
+  maxlength?: number;
+  placeholder?: string;
+}
+```
+
 ```
 interface IFormWrapper {
     errors: { [key: string]: string };
@@ -95,4 +110,29 @@ interface IFormWrapper {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeTextArea: (e: React.SyntheticEvent<HTMLTextAreaElement>) => void;
 }
+```
+
+example data: 
+```
+const COMMENT_FORM: IFormField[] = [
+  {
+    label: '1. [Text] Comment User Name',
+    key: 'comment_name',
+    type: 'text',
+    placeholder: 'Type Comment user name',
+  },
+  {
+    label: '2. [Text] Comment User Email',
+    key: 'comment_email',
+    type: 'text',
+    placeholder: 'Type Comment user email',
+  },
+  {
+    label: '3. [Text] Comment Body',
+    guide: 'max length (250 Char)',
+    key: 'comment_body',
+    type: 'textarea',
+    placeholder: 'Type Comment Body',
+  },
+];
 ```
